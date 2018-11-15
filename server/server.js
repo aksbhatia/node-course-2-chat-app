@@ -16,10 +16,32 @@ app.use(express.static(publicPath))
 io.on('connection', (socket) => {
     console.log('New User connected');
 
+    socket.emit('newEmail', {
+        from: 'aksbhatia@paypal.com',
+        text: 'Hey!',
+        createAt: 123
+
+    })
+
+    socket.on('createEmail', (newEmail) => {
+
+        console.log('createEmail', newEmail);
+
+    })
     socket.on('disconnect', () => {
         console.log('server says: user was disconnected')
     })
+
+    socket.emit('newMessage', {
+        from: 'the server',
+        text: 'Meet at 6pm?',
+        createdAt: 12121
+    })
+    socket.on('createMessage', (newMessage) => {
+        console.log('New message:', newMessage)
+    })
 })
+
 
 
 
